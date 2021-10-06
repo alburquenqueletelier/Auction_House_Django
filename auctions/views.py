@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -66,3 +66,25 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+def new_auction(request):
+
+    if request.method == "POST":
+        form = auctionsform(request.POST, request.FILES, request.user)
+        if form.is_valid():
+            ins = form.save(commit=False)
+            ins.user = request.user
+            if not request.user == ins.user:
+                raise Http404
+            ins.save()
+            context = {
+                "form" : form,
+                "Succes" : "Succes Saved"
+            }
+            return render(request, "auctions/new_ac.html", context)
+    else:
+        form = auctionsform()
+        context = {
+            "form" : form
+        }
+        return render(request, "auctions/new_ac.html", context)

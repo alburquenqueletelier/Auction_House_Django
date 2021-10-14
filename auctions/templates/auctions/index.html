@@ -2,22 +2,39 @@
 {% load static %}
 
 {% block body %}
-    <h1>Active Listings</h1>
-
-    {% for auctions in all_a %}
-
-    <h1>{{auctions.name}}</h1>
-    <p>by {{auctions.user}}</p>
-    <img src="{{ auctions.image.url }}" style="max-height:300px" alt="{{ auctions.name }}">
-    <ul>
-        <li>{{auctions.category}}</li>
-        <li>{{auctions.description}}</li>
-        <li>{{auctions.price}}</li>
-    </ul>
-
-    {% empty %}
-    <h2>None auctions</h2>
-    <p>Login to create o bit an auction</p>
-    {% endfor %}
-
+    <div class="container">
+        <h1>Active Listings</h1>
+        {% for auctions in all_a %}
+            <div class="border border-box-auto m-3 p-3">
+                <h3>{{auctions.name}}</h3>
+                <p>by {{auctions.user}}</p>
+                <div class="row">
+                    <div class="col-auto">
+                        <img src="{{ auctions.image.url }}" style="max-height:300px" alt="{{ auctions.name }}">
+                    </div>
+                    <div class="col-auto">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope='row'>Category</th>
+                                    <td>{{auctions.category}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope='row'>Description</th>
+                                    <td>{{auctions.description}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope='row'>Price</th>
+                                    <td>{{auctions.price}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+        <h2>None auctions</h2>
+        <p>Login to create o bit an auction</p>
+        {% endfor %}
+    </div>
 {% endblock %}

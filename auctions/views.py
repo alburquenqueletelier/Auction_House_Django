@@ -90,3 +90,10 @@ def new_auction(request):
             "form" : form
         }
         return render(request, "auctions/new_ac.html", context)
+
+def see_auction(request,pk):
+    see = auctions.objects.get(pk=pk)
+    context = {
+        'see' : see
+    }
+    return render(request, "auctions/auc_bid.html", context)

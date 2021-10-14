@@ -2,24 +2,25 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from django.forms import ModelForm, SelectDateWidget, TextInput
+from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
     pass
 
 class auctions(models.Model):
-    SPORT = 1
-    ELECTRONIC = 2
-    HOMELIKE = 3
-    FOOD = 4
-    CARS = 5
+    SPORT = 'Sport'
+    ELECTRONIC = 'Electronic'
+    HOMELIKE = 'Homelike'
+    FOOD = 'Food'
+    CARS = 'Cars'
 
     CAT_TYPE = (
-        (SPORT, _('Sport')),
-        (ELECTRONIC, _('Electronic')),
-        (HOMELIKE, _('Homelike')),
-        (FOOD, _('Food')),
-        (CARS, _('Cars'),)
+        (SPORT, _('SPORT')),
+        (ELECTRONIC, _('ELECTRONIC')),
+        (HOMELIKE, _('HOMELIKE')),
+        (FOOD, _('FOOD')),
+        (CARS, _('CARS'),)
     )
 
     name = models.CharField(max_length=60)
@@ -28,7 +29,7 @@ class auctions(models.Model):
     description = models.TextField(blank=True, null=True)
     date = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='images', default='images', blank=True, null=True)
-    category = models.IntegerField(choices=CAT_TYPE, default=None, blank=True, null=True)
+    category = models.CharField(max_length=15, choices=CAT_TYPE, default=None, blank=True, null=True)
 
 class auctionsform(ModelForm):
 

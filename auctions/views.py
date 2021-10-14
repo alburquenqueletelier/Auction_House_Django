@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib import messages
 
 
 from .models import *
@@ -77,11 +78,12 @@ def new_auction(request):
             if not request.user == ins.user:
                 raise Http404
             ins.save()
+            form = auctionsform()
             context = {
-                "form" : form,
-                "Succes" : "Succes Saved"
+                "form" : form
             }
-            return render(request, "auctions/new_ac.html", context)
+            messages.success(request, 'Form submission successful')
+            return render(request,"auctions/new_ac.html", context)
     else:
         form = auctionsform()
         context = {

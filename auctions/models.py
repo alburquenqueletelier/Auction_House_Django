@@ -43,3 +43,14 @@ class auctionsform(ModelForm):
             'initial_price': TextInput(attrs={'placeholder':'Price'}),
             'date': SelectDateWidget()
         }
+
+class auc_bid(models.Model):
+    user = models.CharField(max_length=60)
+    price = models.IntegerField()
+    auc_id =  models.IntegerField()
+    date = models.DateTimeField(auto_now=True)
+
+class auc_bid_form(ModelForm):
+    class Meta:
+        model = auc_bid
+        fields = ('__all__')

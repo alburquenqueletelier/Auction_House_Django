@@ -5,6 +5,7 @@
     <div class="container">
         <h1>Active Listings</h1>
         {% for auctions in all_a %}
+    
             <div class="border border-box-auto m-3 p-3">
                 <h3>{{auctions.name}}</h3>
                 <p>by {{auctions.user}}</p>
@@ -32,6 +33,7 @@
                     </div>
                 </div>
             </div>
+
         {% empty %}
         <h2>None auctions</h2>
         <p>Login to create o bit an auction</p>

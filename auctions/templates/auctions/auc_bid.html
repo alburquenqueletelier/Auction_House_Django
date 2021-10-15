@@ -3,8 +3,56 @@
 
 {% block body %}
 
-<h1>{{see.name}}</h1>
+<div class="container">
+    <div class="border border-box-auto m-3 p-3">
+        <h1>{{see.name}}</h1>
+        <p>by {{see.user}}</p>
+        <div class="row">
+            <div class="col-auto">
+                <img src="{{ see.image.url }}" style="max-height:300px; max-width: 500px" alt="{{ see.name }}">
+            </div>
+            <div class="col">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th scope='row'>Category</th>
+                            <td>{{see.category}}</td>
+                        </tr>
+                        <tr>
+                            <th scope='row'>Description</th>
+                            <td>{{see.description}}</td>
+                        </tr>
+                        <tr>
+                            <th scope='row'>Price</th>
+                            <td>{{see.price}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-Algo mas que agregar
+        <div class="row align-item center">
+            <div class="col-auto border border-box m-3">
+                <h3>Comments</h3>
+                {% for comment in see.comment.all %}
+                <h5>{{comment.content}}</h5>
+                <p>Wrote by {{ comment.author }}  the {{comment.date}}</p>
+                {% empty %}
+                <p>No comments</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <form action="{% url 'addcomment' pk=see.id %}" method="post">
+                    {% csrf_token %}  
+                    <input class="form-control" name="comment" type="text" placeholder="Your message">
+                    <input type="hidden"  name="owner" value={{user.pk}}>
+                    <input type="hidden"  name="author" value={{user}}>
+                    <input class="btn btn-success" type="submit" value="Add comment">
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

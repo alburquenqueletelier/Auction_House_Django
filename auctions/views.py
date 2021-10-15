@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 
@@ -97,3 +97,19 @@ def see_auction(request,pk):
         'see' : see
     }
     return render(request, "auctions/auc_bid.html", context)
+
+def addcomment(request,pk):
+    auc_id = pk
+
+    if request.method == 'POST':
+        auction = auctions.objects.get(pk=pk)
+        auc_user = auction.user
+        owner = request.POST["owner"]
+        author = request.POST["author"]
+        comment = request.POST["comment"]
+        new_comment = auction.comment.create(content=comment, user_id=owner, auction_id=auc_id, author=author)
+
+        return redirect("see_auction", pk=auc_id)
+
+    return redirect ("see_aucton", pk=auc_id)
+

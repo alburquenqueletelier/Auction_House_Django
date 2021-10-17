@@ -3,17 +3,19 @@
 
 {% block body %}
     <div class="container">
-        <h1>Active Listings</h1>
+        <div class="row justify-content-center">
+            <h1>Active Listings</h1>
+        </div>
         {% for auctions in all_a %}
             <a href="{% url 'see_auction' pk=auctions.id %}">
             <div class="border border-box-auto m-3 p-3">
                 <h3>{{auctions.name}}</h3>
                 <p>by {{auctions.user}}</p>
                 <div class="row">
-                    <div class="col-auto">
-                        <img src="{{ auctions.image.url }}" style="max-height:300px; max-width: 500px" alt="{{ auctions.name }}">
+                    <div class="col-6">
+                        <img src="{{ auctions.image.url }}" style="height:300px; width: 500px" alt="{{ auctions.name }}">
                     </div>
-                    <div class="col-auto">
+                    <div class="col-6">
                         <table class="table">
                             <tbody>
                                 <tr>

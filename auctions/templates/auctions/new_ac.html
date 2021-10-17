@@ -3,21 +3,67 @@
 
 {% block body %}
 
-<form action="{% url 'new_ac' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h1>Create a New Listing</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-auto border border-box">
+        <form action="{% url 'new_ac' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row m-3">
+                <h1>Create a New Listing</h1>
+            </div>
+            <div class="row m-3">
+                <div class="col-3">
+                    Title
+                </div>
+                <div class="col">
+                    {{form.name}}
+                </div>
+            </div>
+            <div class="row m-3">
+                <div class="col-3">
+                    Price
+                </div>
+                <div class="col">
+                    {{form.price}}
+                </div>
+            </div>
+            <div class="row m-3">
+                <div class="col-3">
+                    Description
+                </div>
+                <div class="col">
+                    {{form.description}}
+                </div>
+            </div>
+            <div class="row m-3">
+                <div class="col-3">
+                    Upload Image
+                </div>
+                <div class="col">
+                    {{form.image}}
+                </div>
+            </div>
+            <div class="row m-3">
+                <div class="col-3">
+                    Category
+                </div>
+                <div class="col">
+                    {{form.category}}
+                </div>
+            </div>
+            <input type="submit" class="btn btn-success" value="Save">
+        </form>
+        </div>
+    </div>
 
-    {{form.as_p}}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
-    <input type="submit" class="btn btn-success" value="Save">
-</form>
-
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-    {% endfor %}
-</ul>
-{% endif %}
+</div>
 
 {% endblock %}

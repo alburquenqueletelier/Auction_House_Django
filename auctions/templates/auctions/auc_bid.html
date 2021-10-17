@@ -42,6 +42,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% if user.is_authenticated %}
         <div class="row">
             <div class="col-6">
                 <form action="{% url 'addcomment' pk=see.id %}" method="post">
@@ -53,6 +54,7 @@
                 </form>
             </div>
         </div>
+        {% endif %}
     </div>
 
 {% endblock %}

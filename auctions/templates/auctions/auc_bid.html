@@ -41,6 +41,7 @@
                 <p>No comments</p>
                 {% endfor %}
             </div>
+            {% if user.is_authenticated %}
             <div class="col">
                 <h3>Do your Bid !</h3>
                 <table class="table">
@@ -68,7 +69,7 @@
                 </table>
             </div>
         </div>
-        {% if user.is_authenticated %}
+
         <div class="row justify-content-between">
             <div class="col-5">
                 <form action="{% url 'addcomment' pk=see.id %}" method="post">
@@ -81,7 +82,9 @@
             </div>
         </div>
         {% else %}
-        
+        <a href="{% url 'login' %}">
+            <button type="button" class="btn btn-info m-5">You most be login to comment or do a bid!</button>
+        </a>
         {% endif %}
     </div>
 

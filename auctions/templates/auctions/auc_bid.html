@@ -9,7 +9,7 @@
         <p>by {{see.user}}</p>
         <div class="row">
             <div class="col-auto">
-                <img src="{{ see.image.url }}" style="max-height:300px; max-width: 500px" alt="{{ see.name }}">
+                <img src="{{ see.image.url }}" style="height:300px; width: 400px" alt="{{ see.name }}">
             </div>
             <div class="col">
                 <table class="table">
@@ -31,20 +31,46 @@
             </div>
         </div>
 
-        <div class="row align-item center">
-            <div class="col-auto border border-box m-3">
+        <div class="row">
+            <div class="col-5 border border-box m-3">
                 <h3>Comments</h3>
                 {% for comment in see.comment.all %}
                 <h5>{{comment.content}}</h5>
-                <p>Wrote by {{ comment.author }}  the {{comment.date}}</p>
+                <p>Wrote by <strong>{{ comment.author }}</strong>  the {{comment.date}}</p>
                 {% empty %}
                 <p>No comments</p>
                 {% endfor %}
             </div>
+            <div class="col">
+                <h3>Do your Bid !</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Initial Price</th>
+                            <th scope="col">Actual Price</th>
+                            <th scope="col">Your Bid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{see.init_price}}</td>
+                            <td>{{see.price}}</td>
+                            <td>
+                                <form action="{% url 'addbid' pk=see.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="number" name="bid" class="form-control" placeholder="Your Bid" required>
+                                    <input type="hidden"  name="owner" value={{user.pk}}>
+                                    <input type="submit" class="btn btn-primary" value="Bid!" style="width: 300px; height: 50px;">
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         {% if user.is_authenticated %}
-        <div class="row">
-            <div class="col-6">
+        <div class="row justify-content-between">
+            <div class="col-5">
                 <form action="{% url 'addcomment' pk=see.id %}" method="post">
                     {% csrf_token %}  
                     <input class="form-control" name="comment" type="text" placeholder="Your message">

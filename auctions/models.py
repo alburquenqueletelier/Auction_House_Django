@@ -33,6 +33,7 @@ class auctions(models.Model):
 
     name = models.CharField(max_length=60)
     price = models.IntegerField()
+    init_price = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
     date = models.DateTimeField(auto_now=True)
@@ -44,12 +45,15 @@ class auctions(models.Model):
         return ', '.join([a.comment_all for a in self.comment.all()])
     comments_all.short_description = "comments_all"
 
+    def initialprice(self):
+        return 
+
 class auctionsform(ModelForm):
 
     class Meta:
         model = auctions
         fields = ('__all__')
-        exclude = ('user',)
+        exclude = ('user', 'init_price')
         widgets = {
             'name': TextInput(attrs={'placeholder':'Title'}),
             'description': Textarea(attrs={'placeholder':'Description of the auction'}),
@@ -66,4 +70,16 @@ class auc_bid(models.Model):
 class auc_bid_form(ModelForm):
     class Meta:
         model = auc_bid
+        fields = ('__all__')
+
+class bid(models.Model):
+    user = models.CharField(max_length=100, blank=True, null=True)
+    bid_price = models.IntegerField()
+    auc_id = models.IntegerField(blank=True, null=True)
+    date = models.DateTimeField(auto_now=True)
+
+class bid_form(ModelForm):
+
+    class Meta:
+        model = bid
         fields = ('__all__')

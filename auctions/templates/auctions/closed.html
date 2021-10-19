@@ -1,0 +1,48 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <h1>Closed Listings</h1>
+    </div>
+    {% for auctions in all_ac %}
+        {% if auctions.active == 0 %}
+        <div class="border border-box-auto m-3 p-3">
+            <h3>{{auctions.name}}</h3>
+            <p>by {{auctions.user}}</p>
+            <div class="row">
+                <div class="col-auto">
+                    <img src="{{ auctions.image.url }}" style="height:300px; width: 400px" alt="{{ auctions.name }}">
+                </div>
+                <div class="col-6">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope='row'>Category</th>
+                                <td>{{auctions.category}}</td>
+                            </tr>
+                            <tr>
+                                <th scope='row'>Description</th>
+                                <td>{{auctions.description}}</td>
+                            </tr>
+                            <tr>
+                                <th scope='row'>Price</th>
+                                <td>{{auctions.price}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="alert alert-danger m-3" role="alert">
+                Auction Closed  -  Winner by: <strong>{{win}}</strong>
+            </div>
+        </div>
+        
+        {% endif %}
+    {% empty %}
+    <h2>None auctions Closed</h2>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -75,6 +75,7 @@ def new_auction(request):
         if form.is_valid():
             ins = form.save(commit=False)
             ins.user = request.user
+            ins.state = True
             ins.init_price = ins.price
             if not request.user == ins.user:
                 raise Http404
@@ -94,17 +95,14 @@ def new_auction(request):
 
 def see_auction(request,pk):
     see = auctions.objects.get(pk=pk)
-    bidform = bid_form()
     context = {
-        'see' : see,
-        'bidform' : bidform
+        'see' : see
     }
     return render(request, "auctions/auc_bid.html", context)
 
 def addcomment(request,pk):
     if request.method == 'POST':
         auction = auctions.objects.get(pk=pk)
-        auc_user = auction.user
         owner = request.POST["owner"]
         author = request.POST["author"]
         comment = request.POST["comment"]
@@ -123,10 +121,13 @@ def addbid(request,pk):
         if bid_h > actual_p:
             b_a = bid(user=owner, bid_price=bid_h, auc_id=pk)
             b_a.save()
-            auctions.objects.filter(pk=pk).update(price=bid_h)
+            auctions.objects.filter(pk=pk).update(price=bid_h, winner=owner)
             return redirect("see_auction", pk=pk)
         else:
             return HttpResponse('<h2>Your offer is too low actual price is %s</h2>' % auction.price)
     
     return redirect("see_auction", pk=pk)
     
+def closebid(request,pk):
+    auctions.objects.filter(pk=pk).update(state=False)
+    return redirect('index')

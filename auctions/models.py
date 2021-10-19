@@ -40,6 +40,8 @@ class auctions(models.Model):
     image = models.ImageField(upload_to='images', default='images', blank=True, null=True)
     category = models.CharField(max_length=15, choices=CAT_TYPE, default=None, blank=True, null=True)
     comment = models.ManyToManyField(Comment , blank=True)
+    winner = models.IntegerField(blank=True, null=True, default=None)
+    state = models.BooleanField(default=True)
 
     def comments_all(self):
         return ', '.join([a.comment_all for a in self.comment.all()])
@@ -53,7 +55,7 @@ class auctionsform(ModelForm):
     class Meta:
         model = auctions
         fields = ('__all__')
-        exclude = ('user', 'init_price')
+        exclude = ('user', 'init_price', 'winner')
         widgets = {
             'name': TextInput(attrs={'placeholder':'Title'}),
             'description': Textarea(attrs={'placeholder':'Description of the auction'}),

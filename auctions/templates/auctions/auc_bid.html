@@ -28,6 +28,11 @@
                         </tr>
                     </tbody>
                 </table>
+                {% if user.is_authenticated and user == see.user %}
+                <a href="{% url 'closebid' pk=see.id %}">
+                <button type="button" class="btn btn-danger">Close Auction</button>
+                </a>
+                {% endif %}
             </div>
         </div>
 
@@ -67,6 +72,7 @@
                         </tr>
                     </tbody>
                 </table>
+                {{see.winner}}
             </div>
         </div>
 

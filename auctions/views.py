@@ -95,8 +95,12 @@ def new_auction(request):
 
 def see_auction(request,pk):
     see = auctions.objects.get(pk=pk)
+    bid_see = bid.objects.get(auc_id=pk)
+    user_bid = User.objects.get(pk=bid_see.user)
     context = {
-        'see' : see
+        'see' : see,
+        'bid_see' : bid_see,
+        'user_bid' : user_bid
     }
     return render(request, "auctions/auc_bid.html", context)
 
@@ -119,10 +123,17 @@ def addbid(request,pk):
         owner = request.POST["owner"]
         bid_h = int(request.POST["bid"])
         if bid_h > actual_p:
-            b_a = bid(user=owner, bid_price=bid_h, auc_id=pk)
-            b_a.save()
-            auctions.objects.filter(pk=pk).update(price=bid_h, winner=owner)
-            return redirect("see_auction", pk=pk)
+            try:
+                bid_exist = bid.objects.get(auc_id=pk)
+                if bid_exist.auc_id == auction.id:
+                    bid.objects.filter(auc_id=pk).update(user=owner, bid_price=bid_h, auc_id=pk)
+                    auctions.objects.filter(pk=pk).update(price=bid_h, winner=owner)
+                    return redirect("see_auction", pk=pk)
+            except:
+                b_a = bid(user=owner, bid_price=bid_h, auc_id=pk)
+                b_a.save()
+                auctions.objects.filter(pk=pk).update(price=bid_h, winner=owner)
+                return redirect("see_auction", pk=pk)
         else:
             return HttpResponse('<h2>Your offer is too low actual price is %s</h2>' % auction.price)
     

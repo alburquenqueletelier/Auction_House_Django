@@ -6,15 +6,27 @@ from django.urls import reverse
 from django.contrib import messages
 
 
+
 from .models import *
 
 
 def index(request):
-    all_auctions = auctions.objects.all()
+    all_auctions = auctions.objects.filter(state=True)
     context = {
         "all_a" : all_auctions
     }
     return render(request, "auctions/index.html", context)
+
+def closed(request):
+    all_auctions = auctions.objects.filter(state=False)
+    bids = bid.objects.all()
+    user_bids = User.objects.all()
+    context = {
+        "all_a" : all_auctions,
+        'bids' : bids,
+        'user_bids' : user_bids
+    }
+    return render(request, "auctions/closed.html", context)
 
 
 def login_view(request):
@@ -95,8 +107,14 @@ def new_auction(request):
 
 def see_auction(request,pk):
     see = auctions.objects.get(pk=pk)
-    bid_see = bid.objects.get(auc_id=pk)
-    user_bid = User.objects.get(pk=bid_see.user)
+    try:
+        bid_see = bid.objects.get(auc_id=pk)
+        user_bid = User.objects.get(pk=bid_see.user)
+    except:
+        bid_see = None
+        user_bid = None
+        pass
+    
     context = {
         'see' : see,
         'bid_see' : bid_see,
@@ -142,3 +160,4 @@ def addbid(request,pk):
 def closebid(request,pk):
     auctions.objects.filter(pk=pk).update(state=False)
     return redirect('index')
+

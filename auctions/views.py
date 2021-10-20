@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
-
+import datetime as dt
 
 
 from .models import *
@@ -159,5 +159,6 @@ def addbid(request,pk):
     
 def closebid(request,pk):
     auctions.objects.filter(pk=pk).update(state=False)
+    bid.objects.filter(auc_id=pk).update(date=dt.datetime.now())
     return redirect('index')
 

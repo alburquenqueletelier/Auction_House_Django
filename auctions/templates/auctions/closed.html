@@ -39,7 +39,7 @@
                     {% for win in user_bids %}
                         {% if win.id|to_int == bidd.user|to_int %}
                         <div class="alert alert-danger m-3" role="alert">
-                            Auction Closed  -  Winner by: <strong>{{win.username}}</strong>
+                            Auction Closed at <strong>{{bidd.date}}</strong>  -  Winner by: <strong>{{win.username}}</strong>
                         </div>
                         {% endif %}
                     {% endfor %}

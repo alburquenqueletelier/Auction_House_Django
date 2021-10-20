@@ -162,3 +162,16 @@ def closebid(request,pk):
     bid.objects.filter(auc_id=pk).update(date=dt.datetime.now())
     return redirect('index')
 
+def categories(request):
+    all_cat = auctions.CAT_TYPE
+    context = {
+        "all_cat" : all_cat
+    }
+    return render(request, "auctions/categories.html", context)
+
+def cat_choose(request, cat_id):
+    all_auctions = auctions.objects.filter(state=True, category = cat_id)
+    context = {
+        "all_a" : all_auctions
+    }
+    return render(request, "auctions/cat_choose.html", context)

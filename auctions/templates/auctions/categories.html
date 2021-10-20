@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center p-5">
+            {% for cat in all_cat %}
+                <div class="col-auto">
+                    <a href="{% url 'cat_choose' cat_id=cat.0 %}">
+                        <h3>{{cat.0}}</h3>
+                    </a>
+                </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -107,6 +107,11 @@ def new_auction(request):
 
 def see_auction(request,pk):
     see = auctions.objects.get(pk=pk)
+    user = request.user
+    if wlist.objects.filter(user=user.id, auc_id = pk):
+        watch_status = True
+    else:
+        watch_status = False
     try:
         bid_see = bid.objects.get(auc_id=pk)
         user_bid = User.objects.get(pk=bid_see.user)
@@ -118,7 +123,8 @@ def see_auction(request,pk):
     context = {
         'see' : see,
         'bid_see' : bid_see,
-        'user_bid' : user_bid
+        'user_bid' : user_bid,
+        'w_s' : watch_status
     }
     return render(request, "auctions/auc_bid.html", context)
 
@@ -175,3 +181,29 @@ def cat_choose(request, cat_id):
         "all_a" : all_auctions
     }
     return render(request, "auctions/cat_choose.html", context)
+
+def add_to_w(request,pk):
+    auc = auctions.objects.get(pk=pk)
+    user = request.user
+    if wlist.objects.filter(user=user.id, auc_id = pk).exists():
+        w_l = wlist.objects.filter(user=user.id, auc_id = pk)
+        w_l.delete()
+    else:
+        w_l = auc.watchlist.create(user=user.id, auc_id=pk)
+        w_l.save()
+    return HttpResponseRedirect(reverse('see_auction', kwargs={'pk':pk}))
+
+def watchlist(request):
+    user = request.user
+    #try:
+    #all_auctions = auctions.objects.filter(user=2)
+    all_auctions = auctions.objects.filter(watchlist__user = user.id)
+    context = {
+    'watch' : all_auctions
+    }
+    return render(request, "auctions/watchlist.html", context)
+    #except:
+     #   context = {
+      #  'watch' : "No auction listing in watchlist"
+       # }
+        #return render(request, "auctions/watchlist.html", context)

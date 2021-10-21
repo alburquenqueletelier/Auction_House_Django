@@ -32,6 +32,14 @@
                 <a href="{% url 'closebid' pk=see.id %}">
                 <button type="button" class="btn btn-danger">Close Auction</button>
                 </a>
+                {% elif user.is_authenticated and not w_s %}
+                <a href="{% url 'add_to_w' pk=see.id %}">
+                <button type="submit" class="btn btn-success">Add To WatchList</button>
+                </a>
+                {% else %}
+                <a href="{% url 'add_to_w' pk=see.id %}">
+                <button type="submit" class="btn btn-success">Remove from WatchList</button>
+                </a>
                 {% endif %}
             </div>
         </div>

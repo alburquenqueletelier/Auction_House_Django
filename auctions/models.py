@@ -16,6 +16,10 @@ class Comment(models.Model):
     date = models.DateTimeField(auto_now=True)
     author = models.CharField(max_length=100)
 
+class wlist(models.Model):
+    user = models.IntegerField(blank=True, null=True)
+    auc_id = models.IntegerField(blank=True, null=True)
+
 class auctions(models.Model):
     SPORT = 'Sport'
     ELECTRONIC = 'Electronic'
@@ -42,20 +46,14 @@ class auctions(models.Model):
     comment = models.ManyToManyField(Comment , blank=True)
     winner = models.IntegerField(blank=True, null=True, default=None)
     state = models.BooleanField(default=True)
-
-    def comments_all(self):
-        return ', '.join([a.comment_all for a in self.comment.all()])
-    comments_all.short_description = "comments_all"
-
-    def initialprice(self):
-        return 
+    watchlist = models.ManyToManyField(wlist , blank=True)
 
 class auctionsform(ModelForm):
 
     class Meta:
         model = auctions
         fields = ('__all__')
-        exclude = ('user', 'init_price', 'winner')
+        exclude = ('user', 'init_price', 'winner', 'watchlist')
         widgets = {
             'name': TextInput(attrs={'placeholder':'Title'}),
             'description': Textarea(attrs={'placeholder':'Description of the auction'}),
@@ -80,8 +78,4 @@ class bid(models.Model):
     auc_id = models.IntegerField(blank=True, null=True)
     date = models.DateTimeField(auto_now=True)
 
-class bid_form(ModelForm):
 
-    class Meta:
-        model = bid
-        fields = ('__all__')

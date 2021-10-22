@@ -19,4 +19,4 @@ urlpatterns = [
     path("cat_choose/<str:cat_id>", views.cat_choose, name="cat_choose"),
     path("see_auction/<int:pk>/add_to_w", views.add_to_w, name="add_to_w"),
     path("watchlist", views.watchlist, name="watchlist")
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

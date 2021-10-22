@@ -6,8 +6,6 @@ body {
     margin: auto;
 }
 
-li {
-    color: green;
-    font-size:large;
-    border-color: blue;
+h1 {
+    color: red;
 }

@@ -2,25 +2,25 @@
 {% load static %}
 
 {% block body %}
-    <div class="container ml-5">
+    <div class="container">
         <div class="row justify-content-center">
             <h1>Active Listings</h1>
         </div>
         {% for auctions in all_a %}
             {% if auctions.state %}
-            <a href="{% url 'see_auction' pk=auctions.id %}">
+            <a href="{% url 'see_auction' pk=auctions.id %}" class="nav-link">
             <div class="border border-box-auto m-3 p-3">
                 <h3>{{auctions.name}}</h3>
-                <p>by {{auctions.user}}</p>
+                <p>by <strong>{{auctions.user}}</strong></p>
                 <div class="row">
                     <div class="col-auto">
-                        <img src="{{ auctions.image.url }}" style="height:300px; width: 400px" alt="{{ auctions.name }}">
+                        <img class="listing" src="{{ auctions.image.url }}" alt="{{ auctions.name }}">
                     </div>
                     <div class="col-6">
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <th scope='row'>Category</th>
+                                    <th class="char" scope='row'>Category</th>
                                     <td>{{auctions.category}}</td>
                                 </tr>
                                 <tr>
@@ -40,7 +40,7 @@
             {% endif %}
         {% empty %}
         <h2>None auctions</h2>
-        <p>Login to create o bit an auction</p>
+        <p>Login to create or bit an auction</p>
         {% endfor %}
     </div>
 {% endblock %}

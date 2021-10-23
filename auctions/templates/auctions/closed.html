@@ -13,7 +13,7 @@
             <p>by {{auctions.user}}</p>
             <div class="row">
                 <div class="col-auto">
-                    <img src="{{ auctions.image.url }}" style="height:300px; width: 400px" alt="{{ auctions.name }}">
+                    <img class="listing" src="{{ auctions.image.url }}" alt="{{ auctions.name }}">
                 </div>
                 <div class="col-6">
                     <table class="table">
@@ -38,7 +38,7 @@
                 {% if bidd.auc_id == auctions.id %}
                     {% for win in user_bids %}
                         {% if win.id|to_int == bidd.user|to_int %}
-                        <div class="alert alert-danger m-3" role="alert">
+                        <div class="alert alert-success m-3" role="alert">
                             Auction Closed at <strong>{{bidd.date}}</strong>  -  Winner by: <strong>{{win.username}}</strong>
                         </div>
                         {% endif %}

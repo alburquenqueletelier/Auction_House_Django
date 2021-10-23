@@ -8,22 +8,32 @@
         <link href="{% static 'styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <div class="container ml-5">
-            <h1>Auctions</h1>
-            <div>
-                {% if user.is_authenticated %}
-                <div class="message-alert">
-                    <div class="alert alert-success" role="alert">
-                        Signed in as <strong>{{ user.username }}</strong>.
-                    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-auto">
+                    <img src="../media/images/logo_l_up.png" alt="Logo">
                 </div>
-                {% else %}
-                <div class="message-alert">
-                    <div class="alert alert-danger" role="alert">
-                        Not Signed in
+                <div class="col offset-1"></div>
+                <div class="col-auto">
+                    <h1>Auctions House</h1>
+                    {% if user.is_authenticated %}
+                    <div class="message-alert">
+                        <div class="alert alert-success" role="alert">
+                            Signed in as <strong>{{ user.username }}</strong>.
+                        </div>
                     </div>
+                    {% else %}
+                    <div class="message-alert">
+                        <div class="alert alert-danger" role="alert">
+                            Not Signed in
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
+                <div class="col offset-1"></div>
+                <div class="col-auto">
+                    <img src="../media/images/logo_l_up.png" alt="Logo">
+                </div>
             </div>
             <ul class="nav">
                 <li class="nav-item">

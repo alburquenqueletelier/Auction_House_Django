@@ -36,7 +36,7 @@
                 <a href="{% url 'add_to_w' pk=see.id %}">
                 <button type="submit" class="btn btn-success">Add To WatchList</button>
                 </a>
-                {% else %}
+                {% elif user.is_authenticated and w_s %}
                 <a href="{% url 'add_to_w' pk=see.id %}">
                 <button type="submit" class="btn btn-success">Remove from WatchList</button>
                 </a>

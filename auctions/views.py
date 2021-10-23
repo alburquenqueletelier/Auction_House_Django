@@ -197,7 +197,7 @@ def watchlist(request):
     user = request.user
     #try:
     #all_auctions = auctions.objects.filter(user=2)
-    all_auctions = auctions.objects.filter(watchlist__user = user.id)
+    all_auctions = auctions.objects.filter(watchlist__user = user.id, state = True)
     context = {
     'watch' : all_auctions
     }
